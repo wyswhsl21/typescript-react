@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const Signup = () => {
   interface Infomation {
     password: string;
@@ -17,7 +18,13 @@ const Signup = () => {
   const [isEnable, setIsEnable] = useState(false);
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (token !== null) {
+      navigate("/todo");
+    }
+  }, []);
+  const token = window.localStorage.getItem("token");
+  console.log(token);
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -44,7 +51,7 @@ const Signup = () => {
           );
           console.log(data);
           window.localStorage.setItem("token", data.access_token);
-          setInfo({ email: "", password: "" });
+
           navigate("/signin");
         } catch (error) {
           console.log(error);
@@ -95,12 +102,12 @@ const Signup = () => {
 };
 
 export default Signup;
-const Container = styled.div`
+export const Container = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
 `;
-const Wrap = styled.form`
+export const Wrap = styled.form`
   margin: 0 auto;
   width: 600px;
   height: 800px;

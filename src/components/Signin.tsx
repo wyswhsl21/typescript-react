@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+interface Infomation {
+  password: string;
+  email?: string;
+}
 const Signin = () => {
-  interface Infomation {
-    password: string;
-    email?: string;
-  }
   const [info, setInfo] = useState({
     email: "",
     password: "",
@@ -16,7 +16,14 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (token !== null) {
+      navigate("/todo");
+    }
+  }, []);
+
   const token = window.localStorage.getItem("token");
+  console.log(token);
 
   const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -42,6 +49,7 @@ const Signin = () => {
             }
           );
           console.log(data);
+          window.localStorage.setItem("token", data.access_token);
           setInfo({ email: "", password: "" });
           navigate("/todo");
         } catch (error) {
