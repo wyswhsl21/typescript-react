@@ -14,6 +14,7 @@ const TodoList = () => {
   const [isfix, setIsFix] = useState(false);
 
   //get Todo
+  // pr test입니다.
   useEffect(() => {
     async function getTodos() {
       const { data } = await TodoApi.getTodos();
